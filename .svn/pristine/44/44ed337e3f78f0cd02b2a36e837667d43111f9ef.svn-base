@@ -1,0 +1,41 @@
+
+import { Route, Routes } from 'react-router-dom';
+import { CommingSoon } from './components/CommonComponents/ComingSoon';
+import PDFViewer from './components/CommonComponents/PDFViewer';
+import { routes } from './AppRoutes'
+import Layout from './Layout';
+
+
+
+import Base64Decode from "./components/Tools/Base64Decode";
+//import Base64Encode from "./components/Tools/Base64Encode";
+//import URLDecode from "./components/Tools/URLDecode";
+//import URLEncode from "./components/Tools/URLEncode";
+function App() {
+    return (
+        <>
+            <Routes>
+                {/*<Route path='/test' element={<PDFViewer />} />*/}
+                {/*<Route path='/' element={<CommingSoon />} />*/}
+                <Route path='/' element={<Layout Component={'Base64Decode'}  />} />
+                <Route path='*' element={<CommingSoon />} />
+                {/*<Route path='' element={<CommingSoon />} />*/}
+
+                {/*<Route path='/Base64Decode' element={<Base64Decode />} />*/}
+                {/*<Route path='/Base64Encode' element={<Base64Encode />} />*/}
+                {/*<Route path='/URLDecode' element={<URLDecode />} />*/}
+                {/*<Route path='/URLEncode' element={<URLEncode />} />*/}
+                {/*<Route path='/PrivacyPolicy' element={<PrivacyPolicy />} />*/}
+                {/*<Route path='/AboutUs' element={<PrivacyPolicy />} />*/}
+           
+                {routes.map((item, index) =>
+                    <Route path={`/${item.path}`} key={`menus${index}`} element={<Layout Component={item.component} PageUrl={item.path} />} />
+                )}
+            </Routes>
+        </>
+    );
+}
+
+export default App;
+
+

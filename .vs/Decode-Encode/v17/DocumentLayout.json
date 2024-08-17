@@ -1,0 +1,173 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|c:\\users\\yogeshkumar\\source\\repos\\decode\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|solutionrelative:index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|c:\\users\\yogeshkumar\\source\\repos\\decode\\.htaccess||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|solutionrelative:.htaccess||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|c:\\users\\yogeshkumar\\source\\repos\\decode\\src\\components\\encoders\\audiotobase64.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|solutionrelative:src\\components\\encoders\\audiotobase64.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|c:\\users\\yogeshkumar\\source\\repos\\decode\\src\\components\\encoders\\urltobase64.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|solutionrelative:src\\components\\encoders\\urltobase64.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|c:\\users\\yogeshkumar\\source\\repos\\decode\\public\\404.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|solutionrelative:public\\404.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|c:\\users\\yogeshkumar\\source\\repos\\decode\\src\\envconfig\\env_config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|solutionrelative:src\\envconfig\\env_config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|c:\\users\\yogeshkumar\\source\\repos\\decode\\src\\custom.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|solutionrelative:src\\custom.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|c:\\users\\yogeshkumar\\source\\repos\\decode\\src\\components\\commoncomponents\\commonnotification.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|solutionrelative:src\\components\\commoncomponents\\commonnotification.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|c:\\users\\yogeshkumar\\source\\repos\\decode\\vite.config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{DFA86AF6-2EEE-4A69-88F8-03C30CFA0DB7}|decode-encode.esproj|solutionrelative:vite.config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": ".htaccess",
+              "DocumentMoniker": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\.htaccess",
+              "RelativeDocumentMoniker": ".htaccess",
+              "ToolTip": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\.htaccess",
+              "RelativeToolTip": ".htaccess",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-08-17T05:01:06.747Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "env_config.js",
+              "DocumentMoniker": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\src\\EnvConfig\\env_config.js",
+              "RelativeDocumentMoniker": "src\\EnvConfig\\env_config.js",
+              "ToolTip": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\src\\EnvConfig\\env_config.js",
+              "RelativeToolTip": "src\\EnvConfig\\env_config.js",
+              "ViewState": "AQIAAE4AAAAAAAAAAAAAAAwAAAALAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-08-17T04:14:33.25Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "custom.css",
+              "DocumentMoniker": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\src\\custom.css",
+              "RelativeDocumentMoniker": "src\\custom.css",
+              "ToolTip": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\src\\custom.css",
+              "RelativeToolTip": "src\\custom.css",
+              "ViewState": "AQIAAFoGAAAAAAAAAAAAAHMGAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-08-16T12:46:40.549Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CommonNotification.jsx",
+              "DocumentMoniker": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\src\\components\\CommonComponents\\CommonNotification.jsx",
+              "RelativeDocumentMoniker": "src\\components\\CommonComponents\\CommonNotification.jsx",
+              "ToolTip": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\src\\components\\CommonComponents\\CommonNotification.jsx",
+              "RelativeToolTip": "src\\components\\CommonComponents\\CommonNotification.jsx",
+              "ViewState": "AQIAAHkAAAAAAAAAAAAowJsAAAAGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2024-08-16T12:45:40.859Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\index.html",
+              "RelativeDocumentMoniker": "index.html",
+              "ToolTip": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\index.html",
+              "RelativeToolTip": "index.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-08-16T09:26:34.075Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "404.html",
+              "DocumentMoniker": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\public\\404.html",
+              "RelativeDocumentMoniker": "public\\404.html",
+              "ToolTip": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\public\\404.html",
+              "RelativeToolTip": "public\\404.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-08-16T09:26:16.253Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "URLToBase64.jsx",
+              "DocumentMoniker": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\src\\components\\Encoders\\URLToBase64.jsx",
+              "RelativeDocumentMoniker": "src\\components\\Encoders\\URLToBase64.jsx",
+              "ToolTip": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\src\\components\\Encoders\\URLToBase64.jsx",
+              "RelativeToolTip": "src\\components\\Encoders\\URLToBase64.jsx",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB0AAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2024-08-16T07:37:06.185Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AudioToBase64.jsx",
+              "DocumentMoniker": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\src\\components\\Encoders\\AudioToBase64.jsx",
+              "RelativeDocumentMoniker": "src\\components\\Encoders\\AudioToBase64.jsx",
+              "ToolTip": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\src\\components\\Encoders\\AudioToBase64.jsx",
+              "RelativeToolTip": "src\\components\\Encoders\\AudioToBase64.jsx",
+              "ViewState": "AQIAACUAAAAAAAAAAAAYwBwAAAA8AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2024-08-16T07:09:56.551Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "vite.config.js",
+              "DocumentMoniker": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\vite.config.js",
+              "RelativeDocumentMoniker": "vite.config.js",
+              "ToolTip": "C:\\Users\\YogeshKumar\\source\\repos\\Decode\\vite.config.js",
+              "RelativeToolTip": "vite.config.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-08-16T07:10:09.635Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

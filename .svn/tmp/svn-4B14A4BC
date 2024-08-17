@@ -1,0 +1,392 @@
+import { CommingSoon } from "./components/CommonComponents/ComingSoon";
+import AboutUs from "./components/CommonPages/AboutUs";
+import PrivacyPolicy from "./components/CommonPages/PrivacyPolicy";
+import Base64Decode from "./components/Tools/Base64Decode";
+import Base64Encode from "./components/Tools/Base64Encode";
+import URLDecode from "./components/Tools/URLDecode";
+import URLEncode from "./components/Tools/URLEncode";
+import JSONMinify from "./components/Tools/JSONMinify";
+import JSONBeautify from "./components/Tools/JSONBeautify";
+import JSMinify from "./components/Tools/JSMinify";
+import JSBeautify from "./components/Tools/JSBeautify";
+import CSSMinify from "./components/Tools/CSSMinify";
+import CSSBeautify from "./components/Tools/CSSBeautify";
+import HTMLToText from "./components/Converters/HTMLToText";
+import BinaryToDecimal from "./components/Converters/BinaryToDecimal";
+import BinaryToHex from "./components/Converters/BinaryToHex";
+import BinaryToOctal from "./components/Converters/BinaryToOctal";
+import BinaryToQuaternary from "./components/Converters/BinaryToQuaternary";
+import BinaryToQuinary from "./components/Converters/BinaryToQuinary";
+import DecimalToBinary from "./components/Converters/DecimalToBinary";
+import DecimalToHex from "./components/Converters/DecimalToHex";
+import DecimalToOctal from "./components/Converters/DecimalToOctal";
+import DecimalToQuaternary from "./components/Converters/DecimalToQuaternary";
+import DecimalToQuinary from "./components/Converters/DecimalToQuinary";
+import HexToBinary from "./components/Converters/HexToBinary";
+import HexToDecimal from "./components/Converters/HexToDecimal";
+import HexToOctal from "./components/Converters/HexToOctal";
+import HexToQuaternary from "./components/Converters/HexToQuaternary";
+import HexToQuinary from "./components/Converters/HexToQuinary";
+import OctalToBinary from "./components/Converters/OctalToBinary";
+import OctalToDecimal from "./components/Converters/OctalToDecimal";
+import OctalToHex from "./components/Converters/OctalToHex";
+import OctalToQuaternary from "./components/Converters/OctalToQuaternary";
+import OctalToQuinary from "./components/Converters/OctalToQuinary";
+import QuaternaryToBinary from "./components/Converters/QuaternaryToBinary";
+import QuaternaryToDecimal from "./components/Converters/QuaternaryToDecimal";
+import QuaternaryToHex from "./components/Converters/QuaternaryToHex";
+import QuaternaryToOctal from "./components/Converters/QuaternaryToOctal";
+import QuaternaryToQuinary from "./components/Converters/QuaternaryToQuinary";
+import QuinaryToBinary from "./components/Converters/QuinaryToBinary";
+import QuinaryToDecimal from "./components/Converters/QuinaryToDecimal";
+import QuinaryToHex from "./components/Converters/QuinaryToHex";
+import QuinaryToOctal from "./components/Converters/QuinaryToOctal";
+import QuinaryToQuaternary from "./components/Converters/QuinaryToQuaternary";
+import CentimeterToFoot from "./components/Converters/CentimeterToFoot";
+import CentimeterToInch from "./components/Converters/CentimeterToInch";
+import CentimeterToKilometer from "./components/Converters/CentimeterToKilometer";
+import CentimeterToMeter from "./components/Converters/CentimeterToMeter";
+import CentimeterToMile from "./components/Converters/CentimeterToMile";
+import FootToCentimeter from "./components/Converters/FootToCentimeter";
+import FootToInch from "./components/Converters/FootToInch";
+import FootToKilometer from "./components/Converters/FootToKilometer";
+import FootToMeter from "./components/Converters/FootToMeter";
+import FootToMile from "./components/Converters/FootToMile";
+import InchToCentimeter from "./components/Converters/InchToCentimeter";
+import InchToFoot from "./components/Converters/InchToFoot";
+import InchToKilometer from "./components/Converters/InchToKilometer";
+import InchToMeter from "./components/Converters/InchToMeter";
+import InchToMile from "./components/Converters/InchToMile";
+import KilometerToFoot from "./components/Converters/KilometerToFoot";
+import KilometerToInch from "./components/Converters/KilometerToInch";
+import KilometerToMeter from "./components/Converters/KilometerToMeter";
+import KilometerToMile from "./components/Converters/KilometerToMile";
+import MeterToCentimeter from "./components/Converters/MeterToCentimeter";
+import MeterToFoot from "./components/Converters/MeterToFoot";
+import MeterToInch from "./components/Converters/MeterToInch";
+import MeterToKilometer from "./components/Converters/MeterToKilometer";
+import MeterToMile from "./components/Converters/MeterToMile";
+import KilometerToCentimeter from "./components/Converters/KilometerToCentimeter";
+import MileToCentimeter from "./components/Converters/MileToCentimeter";
+import MileToFoot from "./components/Converters/MileToFoot";
+import MileToInch from "./components/Converters/MileToInch";
+import MileToKilometer from "./components/Converters/MileToKilometer";
+import MileToMeter from "./components/Converters/MileToMeter";
+import Base64ToASCII from "./components/Decoders/Base64ToASCII";
+import Base64ToHex from "./components/Decoders/Base64ToHex";
+import Base64ToText from "./components/Decoders/Base64ToText";
+import Base64ToAudio from "./components/Decoders/Base64ToAudio";
+import Base64ToImage from "./components/Decoders/Base64ToImage";
+import Base64ToVideo from "./components/Decoders/Base64ToVideo";
+import Base64ToPdf from "./components/Decoders/Base64ToPdf";
+
+
+import CSSToBase64 from "./components/Encoders/CSSToBase64";
+import HexToBase64 from "./components/Encoders/HexToBase64";
+import HTMLToBase64 from "./components/Encoders/HTMLToBase64";
+import URLToBase64 from "./components/Encoders/URLToBase64";
+import AudioToBase64 from "./components/Encoders/AudioToBase64";
+import TextToBase64 from "./components/Encoders/TextToBase64";
+import FileToBase64 from "./components/Encoders/FileToBase64";
+import ImageToBase64 from "./components/Encoders/ImageToBase64";
+import PDFToBase64 from "./components/Encoders/PDFToBase64";
+import VideoToBase64 from "./components/Encoders/VideoToBase64";
+export const routes = [
+    {
+        path: 'CommingSoon',
+        component: CommingSoon
+    }, {
+        path: 'Login',
+        component: CommingSoon
+    }, {
+        path: 'PrivacyPolicy',
+        component: PrivacyPolicy
+    }, {
+        path: 'AboutUs',
+        component: AboutUs
+    }, {
+        path: 'Base64Decode',
+        component: Base64Decode
+    }, {
+        path: 'Base64Encode',
+        component: Base64Encode
+    }, {
+        path: 'URLDecode',
+        component: URLDecode
+    }, {
+        path: 'URLEncode',
+        component: URLEncode
+    }, {
+        path: 'JSONMinify',
+        component: JSONMinify
+    }, {
+        path: 'JSONBeautify',
+        component: JSONBeautify
+    }, {
+        path: 'JSMinify',
+        component: JSMinify
+    }, {
+        path: 'JSBeautify',
+        component: JSBeautify
+    }, {
+        path: 'CSSMinify',
+        component: CSSMinify
+    }, {
+        path: 'CSSBeautify',
+        component: CSSBeautify
+    }, {
+        path: 'HTMLToText',
+        component: HTMLToText
+    }, {
+        path: 'BinaryToDecimal',
+        component: BinaryToDecimal
+    }, {
+        path: 'BinaryToHex',
+        component: BinaryToHex
+    }, {
+        path: 'BinaryToOctal',
+        component: BinaryToOctal
+    }, {
+        path: 'BinaryToQuaternary',
+        component: BinaryToQuaternary
+    }, {
+        path: 'BinaryToQuinary',
+        component: BinaryToQuinary
+    }, {
+        path: 'DecimalToBinary',
+        component: DecimalToBinary
+    }, {
+        path: 'DecimalToHex',
+        component: DecimalToHex
+    }, {
+        path: 'DecimalToOctal',
+        component: DecimalToOctal
+    }, {
+        path: 'DecimalToQuaternary',
+        component: DecimalToQuaternary
+    }, {
+        path: 'DecimalToQuinary',
+        component: DecimalToQuinary
+    }, {
+        path: 'HexToBinary',
+        component: HexToBinary
+    }, {
+        path: 'HexToDecimal',
+        component: HexToDecimal
+    }, {
+        path: 'HexToOctal',
+        component: HexToOctal
+    }, {
+        path: 'HexToQuaternary',
+        component: HexToQuaternary
+    }, {
+        path: 'HexToQuinary',
+        component: HexToQuinary
+    }, {
+        path: 'OctalToBinary',
+        component: OctalToBinary
+    }, {
+        path: 'OctalToDecimal',
+        component: OctalToDecimal
+    }, {
+        path: 'OctalToHex',
+        component: OctalToHex
+    }, {
+        path: 'OctalToQuaternary',
+        component: OctalToQuaternary
+    }, {
+        path: 'OctalToQuinary',
+        component: OctalToQuinary
+    }, {
+        path: 'QuaternaryToBinary',
+        component: QuaternaryToBinary
+    }, {
+        path: 'QuaternaryToDecimal',
+        component: QuaternaryToDecimal
+    }, {
+        path: 'QuaternaryToHex',
+        component: QuaternaryToHex
+    }, {
+        path: 'QuaternaryToOctal',
+        component: QuaternaryToOctal
+    }, {
+        path: 'QuaternaryToQuinary',
+        component: QuaternaryToQuinary
+    }, {
+        path: 'QuinaryToBinary',
+        component: QuinaryToBinary
+    }, {
+        path: 'QuinaryToDecimal',
+        component: QuinaryToDecimal
+    }, {
+        path: 'QuinaryToHex',
+        component: QuinaryToHex
+    }, {
+        path: 'QuinaryToOctal',
+        component: QuinaryToOctal
+    }, {
+        path: 'QuinaryToQuaternary',
+        component: QuinaryToQuaternary
+    }, {
+        path: 'CentimeterToFoot',
+        component: CentimeterToFoot
+    }, {
+        path: 'CentimeterToInch',
+        component: CentimeterToInch
+    }, {
+        path: 'CentimeterToKilometer',
+        component: CentimeterToKilometer
+    }, {
+        path: 'CentimeterToMeter',
+        component: CentimeterToMeter
+    }, {
+        path: 'CentimeterToMile',
+        component: CentimeterToMile
+    }, {
+        path: 'FootToCentimeter',
+        component: FootToCentimeter
+    }, {
+        path: 'FootToInch',
+        component: FootToInch
+    }, {
+        path: 'FootToKilometer',
+        component: FootToKilometer
+    }, {
+        path: 'FootToMeter',
+        component: FootToMeter
+    }, {
+        path: 'FootToMile',
+        component: FootToMile
+    }, {
+        path: 'InchToCentimeter',
+        component: InchToCentimeter
+    }, {
+        path: 'InchToFoot',
+        component: InchToFoot
+    }, {
+        path: 'InchToKilometer',
+        component: InchToKilometer
+    }, {
+        path: 'InchToMeter',
+        component: InchToMeter
+    }, {
+        path: 'InchToMile',
+        component: InchToMile
+    }, {
+        path: 'KilometerToCentimeter',
+        component: KilometerToCentimeter
+    }, {
+        path: 'KilometerToFoot',
+        component: KilometerToFoot
+    }, {
+        path: 'KilometerToInch',
+        component: KilometerToInch
+    }, {
+        path: 'KilometerToMeter',
+        component: KilometerToMeter
+    }, {
+        path: 'KilometerToMile',
+        component: KilometerToMile
+    }, {
+        path: 'MeterToCentimeter',
+        component: MeterToCentimeter
+    }, {
+        path: 'MeterToFoot',
+        component: MeterToFoot
+    }, {
+        path: 'MeterToInch',
+        component: MeterToInch
+    }, {
+        path: 'MeterToKilometer',
+        component: MeterToKilometer
+    }, {
+        path: 'MeterToMile',
+        component: MeterToMile
+    },{
+        path: 'MileToCentimeter',
+        component: MileToCentimeter
+    },{
+        path: 'MileToFoot',
+        component: MileToFoot
+    },{
+        path: 'MileToInch',
+        component: MileToInch
+    },{
+        path: 'MileToKilometer',
+        component: MileToKilometer
+    },{
+        path: 'MileToMeter',
+        component: MileToMeter
+    },{
+        path: 'Base64ToASCII',
+        component: Base64ToASCII
+    },
+
+    {
+        path: 'Base64ToHex',
+        component: Base64ToHex
+    },
+    {
+        path: 'Base64ToText',
+        component: Base64ToText
+    },
+    {
+        path: 'Base64ToAudio',
+        component: Base64ToAudio
+    },
+    {
+        path: 'Base64ToImage',
+        component: Base64ToImage
+    },
+    {
+        path: 'Base64ToVideo',
+        component: Base64ToVideo
+    },
+    {
+        path: 'Base64ToPdf',
+        component: Base64ToPdf
+    },
+
+
+
+
+
+
+
+
+    {
+        path: 'CSSToBase64',
+        component: CSSToBase64
+    },
+    {
+        path: 'HexToBase64',
+        component: HexToBase64
+    },{
+        path: 'HTMLToBase64',
+        component: HTMLToBase64
+    },{
+        path: 'URLToBase64',
+        component: URLToBase64
+    },{
+        path: 'AudioToBase64',
+        component: AudioToBase64
+    },{
+        path: 'TextToBase64',
+        component: TextToBase64
+    },{
+        path: 'FileToBase64',
+        component: FileToBase64
+    },{
+        path: 'ImageToBase64',
+        component: ImageToBase64
+    },{
+        path: 'PDFToBase64',
+        component: PDFToBase64
+    },
+    {
+        path: 'VideoToBase64',
+        component: VideoToBase64
+    },
+
+
+]

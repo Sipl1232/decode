@@ -1,0 +1,212 @@
+import { useEffect, useRef, useState } from 'react';
+import { AlertBox } from '../CommonComponents/InputBox';
+import { post } from '../CommonComponents/CustomHooks';
+import { useNavigate } from "react-router-dom";
+import BlurLoader from '../CommonComponents/BlurLoader';
+import { toast } from 'react-hot-toast';
+const BinaryToHex = () => {
+    const navigate = useNavigate();
+    const textareaRef = useRef(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [responseValue, setResponseValue] = useState('');
+    const [formData, setFormData] = useState({
+        initialValue: '',
+        uppercase: false,
+        prefix: false,
+    });
+    const handleClear = () => {
+        setFormData({
+            initialValue: '',
+            uppercase: false,
+            prefix: false,
+        })
+        setResponseValue('')
+    }
+    const handleSubmit = () => {
+        const data = {
+            ...formData,
+        }
+        setIsLoading(true)
+        post('/bin_to_hex', { ...data }, (res) => {
+            if (res.status === 'success') {
+                setResponseValue(res.responseValue)
+                AlertBox(res.status, res.message, res.focus);
+                setIsLoading(false);
+            }
+            else if (res.status === 'error') {
+                AlertBox(res.status, res.message, '');
+                setIsLoading(false)
+            }
+        })
+    }
+
+
+    const copyToClipboard = () => {
+        const textarea = textareaRef.current;
+        textarea.select();
+        document.execCommand('copy');
+        responseValue !== '' && toast.success('Text copied to clipboard!');
+    };
+
+    useEffect(() => {
+        document.title = 'Binary To Hex'
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+    return (
+        <>
+            <div className='main-card card  border-0'>
+                <div className='pt-1 row px-3 border-0'>
+                    <div className='card-header '>
+                        <h6 >{'Binary To Hex'} </h6>
+                    </div>
+
+                    <div className='card-body mt-3 pb-1'>
+                        <p style={{ fontSize: '11px' }}>Enter one or more binary values [0-1]+ separated with any other character or whitespace.</p>
+                        <div className='row'>
+                            <div className="fields  ">
+                                <label className="form-label">Binary To Hex converter</label>
+                                <textarea
+                                    id='txtValue1'
+                                    rows="3"
+                                    type="text"
+                                    className="form-control"
+                                    placeholder='Type (or Paste) here...'
+                                    value={formData.initialValue}
+                                    onChange={(e) => {
+                                        setFormData({ ...formData, initialValue: e.target.value })
+                                    }}
+                                />
+                            </div>
+
+                            <div className='d-flex align-items-center gap-1 mb-2' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txtuppercase'
+                                    type="checkbox"
+                                    checked={formData.uppercase}
+                                    style={{ cursor: "pointer" }}
+                                    onChange={(e) => {
+                                        setFormData({ ...formData, uppercase: e.target.checked })
+                                    }}
+                                />
+                                <label style={{ cursor: "pointer" }} htmlFor='txtuppercase'>Uppercase [a-f] digits.</label>
+
+                            </div>
+                              <div className='d-flex align-items-center gap-1 mb-2' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txtprefix'
+                                    type="checkbox"
+                                    checked={formData.prefix}
+                                    style={{ cursor: "pointer" }}
+                                    onChange={(e) => {
+                                        setFormData({ ...formData, prefix: e.target.checked })
+                                    }}
+                                />
+                                <label style={{ cursor: "pointer" }} htmlFor='txtprefix'>Add 0x prefixes.</label>
+
+                            </div>
+
+
+                            <div className='d-flex align-items-center gap-1 mb-1' style={{ fontSize: '13px' }}>
+                                <button type="button"
+                                    onClick={handleSubmit}
+                                    className="btn btn-rounded btn-secondary">CONVERT</button>
+                            </div>
+                            <p style={{ fontSize: '11px' }}>All matching values are converted to their hex [0-9a-f]+ representation:</p>
+                            <div className="fields">
+                                <textarea
+                                    id='txtValue2'
+                                    rows="10"
+                                    type="text"
+                                    className="form-control"
+                                    placeholder='Result Goes here...'
+                                    value={responseValue}
+                                    ref={textareaRef}
+                                />
+                            </div>
+                            <div className='card-body'>
+                                <button type="button"
+                                    onClick={copyToClipboard}
+                                    className="btn btn-rounded btn-secondary">
+                                    <span className=" text-white me-2">
+                                        <i className="fas fa-copy"></i>
+                                    </span>Copy
+                                </button>
+
+                                <button type="button" onClick={() => handleClear()} className="btn btn-rounded btn-danger"><span className="text-white me-2">
+                                    <i className="fa-solid fa-arrow-rotate-left"></i>
+                                </span>Clear</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div className='main-card card  border-0'>
+                <div className='card-body mt-3 pb-1'>
+
+                    <div style={{ fontSize: '15px', fontWeight: "600" }}>
+                        <i className="fas fa-question-circle me-1"> </i>
+                        How to convert Binary to Hex
+                    </div>
+
+                    <div style={{ width: "100%", height: "1px", borderBottom: "1px dashed black", marginTop: "5px" }}></div>
+
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>A binary number is a number expressed in the base-2 numeral system or binary numeral system, which uses only two symbols: typically "0" and "1". The base-2 numeral system is a positional notation with a radix of 2. Each digit is referred to as a bit. Because of its straightforward implementation in digital electronic circuitry using logic gates, the binary system is used by almost all modern computers and computer-based devices.</p>
+                    <p style={{ fontSize: '12px', marginTop: "10px" }}>Hexadecimal is a positional system that represents numbers using a base of 16. Unlike the common way of representing numbers with ten symbols, it uses sixteen distinct symbols, most often the symbols "0"-"9" to represent values zero to nine, and "A"-"F" to represent values ten to fifteen. Hexadecimal numerals are widely used by computer system designers and programmers, as they provide a human-friendly representation of binary-coded values.</p>
+
+                    <div style={{ fontSize: '13px', fontWeight: "700", marginTop: "10px" }}>Formula</div>
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>Follow these steps to convert a binary number into hexadecimal form:</p>
+
+                    <ol style={{ fontSize: '12px' }}>
+                        <li>Start from the right side of the binary number and divide it up into groups of 4 digits. Add extra zeros to the front of the first number if it is not four digits.</li>
+                        <li>Convert each group of 4 binary digits to its equivalent hex value from the conversion table below.</li>
+                        <li>Concatenate the results together. This is the solution.</li>
+                    </ol>
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>Conversion table:</p>
+
+                    <div className="row">
+                        <div className="col-lg-2">
+                            <table className='table table-bordered  mb-0'>
+                                <tbody><tr><th>Binary</th><th>Hexadecimal</th></tr><tr><td>0000</td><td>0</td></tr><tr><td>0001</td><td>1</td></tr><tr><td>0010</td><td>2</td></tr><tr><td>0011</td><td>3</td></tr><tr><td>0100</td><td>4</td></tr><tr><td>0101</td><td>5</td></tr><tr><td>0110</td><td>6</td></tr><tr><td>0111</td><td>7</td></tr><tr><td>1000</td><td>8</td></tr><tr><td>1001</td><td>9</td></tr><tr><td>1010</td><td>A</td></tr><tr><td>1011</td><td>B</td></tr><tr><td>1100</td><td>C</td></tr><tr><td>1101</td><td>D</td></tr><tr><td>1110</td><td>E</td></tr><tr><td>1111</td><td>F</td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>For example if the given binary number is 11011010100111:</p>
+
+                    <div className="row">
+                        <div className="col-lg-2">
+                            <table className='table table-bordered  mb-0'>
+                                <tbody><tr><th>Binary</th><td>(00)11</td><td>0110</td><td>1010</td><td>0111</td></tr><tr><th>Hexadecimal</th><td>3</td><td>6</td><td>A</td><td>7</td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <p style={{ fontSize: '13px', marginTop: "8px" }}>Then the hexadecimal solution is: 36A7</p>
+                    <p style={{ fontSize: '13px', marginTop: "8px" }}><i className="fas fa-copyright me-1"></i> @2024<a href=' www.sagarinfotech.com'> www.sagarinfotech.com</a></p>
+                    <div className='card-body'>
+                        <button type="button"
+                            onClick={() => {
+                                navigate('/PrivacyPolicy')
+                            }}
+                            className=" btn-rounded btn btn-info">
+                            <span className=" text-white me-2">
+                                <i className="fas fa-lock"></i>
+                            </span>Privacy policy</button>
+                        <button type="button" onClick={() => {
+
+                        }} className=" btn-rounded btn btn-info"><span className="text-white me-2">
+                                <i className="fas fa-at"></i>
+                            </span>Contact us
+                        </button>
+                    </div>
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>This website uses cookies. We use cookies to personalise content/ads and to analyse our traffic.</p>
+                </div>
+            </div>
+            {isLoading && <BlurLoader />}
+        </>
+    )
+}
+export default BinaryToHex;

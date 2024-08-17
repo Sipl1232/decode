@@ -1,0 +1,151 @@
+import { useEffect, useRef, useState } from 'react';
+import { AlertBox } from '../CommonComponents/InputBox';
+import { post } from '../CommonComponents/CustomHooks';
+import { useNavigate } from "react-router-dom";
+import BlurLoader from '../CommonComponents/BlurLoader';
+import { toast } from 'react-hot-toast';
+const HTMLToText = () => {
+    const navigate = useNavigate();
+    const textareaRef = useRef(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [responseValue, setResponseValue] = useState('');
+    const [formData, setFormData] = useState({
+        initialValue: '',
+    });
+    const handleClear = () => {
+        setFormData({
+            initialValue: '',
+        })
+        setResponseValue('')
+    }
+    const handleSubmit = () => {
+        const data = {
+            ...formData,
+        }
+        setIsLoading(true)
+        post('/html_to_text', { ...data }, (res) => {
+            if (res.status === 'success') {
+                setResponseValue(res.responseValue)
+                AlertBox(res.status, res.meassge, res.focus);
+                setIsLoading(false);
+            }
+            else if (res.status === 'error') {
+                AlertBox(res.status, res.meassge, '');
+                setIsLoading(false)
+            }
+        })
+    }
+
+
+    const copyToClipboard = () => {
+        const textarea = textareaRef.current;
+        textarea.select();
+        document.execCommand('copy');
+        responseValue !== '' && toast.success('Text copied to clipboard!');
+    };
+
+    useEffect(() => {
+        document.title = 'HTML To Text'
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+    return (
+        <>
+            <div className='main-card card  border-0'>
+                <div className='pt-1 row px-3 border-0'>
+                    <div className='card-header '>
+                        <h6 >{'HTML To Text'} </h6>
+                    </div>
+
+                    <div className='card-body mt-3 pb-1'>
+                        <p style={{ fontSize: '11px' }}>Enter one or more decimal values [0-9]+ separated with any other character or whitespace.</p>
+                        <div className='row'>
+                            <div className="fields  ">
+                                <label className="form-label">HTML To Text</label>
+                                <textarea
+                                    id='txtValue1'
+                                    rows="3"
+                                    type="text"
+                                    className="form-control"
+                                    placeholder='Type (or Paste) here...'
+                                    value={formData.initialValue}
+                                    onChange={(e) => {
+                                        setFormData({ ...formData, initialValue: e.target.value })
+                                    }}
+                                />
+                            </div>
+
+
+                            <div className='d-flex align-items-center gap-1 mb-1' style={{ fontSize: '13px' }}>
+                                <button type="button"
+                                    onClick={handleSubmit}
+                                    className="btn btn-rounded btn-secondary">CONVERT</button>
+                            </div>
+                            <p style={{ fontSize: '11px' }}>All matching values are converted to their quaternary [0-3]+ representation:</p>
+                            <div className="fields">
+                                <textarea
+                                    id='txtValue2'
+                                    rows="10"
+                                    type="text"
+                                    className="form-control"
+                                    placeholder='Result Goes here...'
+                                    value={responseValue}
+                                    ref={textareaRef}
+                                />
+                            </div>
+                            <div className='card-body'>
+                                <button type="button"
+                                    onClick={copyToClipboard}
+                                    className="btn btn-rounded btn-secondary">
+                                    <span className=" text-white me-2">
+                                        <i className="fas fa-copy"></i>
+                                    </span>Copy
+                                </button>
+
+                                <button type="button" onClick={() => handleClear()} className="btn btn-rounded btn-danger"><span className="text-white me-2">
+                                    <i className="fa-solid fa-arrow-rotate-left"></i>
+                                </span>Clear</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div className='main-card card  border-0'>
+                <div className='card-body mt-3 pb-1'>
+
+                    <div style={{ fontSize: '15px', fontWeight: "600" }}>
+                        <i className="fas fa-question-circle me-1"> </i>
+                        What Is an HTML to Text Converter
+                    </div>
+
+                    <div style={{ width: "100%", height: "1px", borderBottom: "1px dashed black", marginTop: "5px" }}></div>
+
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>With this tool, you can convert HTML code to text. It removes all HTML tags and preserves text structure but you can remove it by using the collapse-whitespace option. You can also control the behavior of the  tag and make it insert a new line in the output text. Coming soon, you'll be able to choose the tags that you want to extract text from (and ignore text in all other tags). Textabulous!</p>
+                  
+                    <p style={{ fontSize: '13px', marginTop: "8px" }}><i className="fas fa-copyright me-1"></i> @2024<a href=' www.sagarinfotech.com'> www.sagarinfotech.com</a></p>
+                    <div className='card-body'>
+                        <button type="button"
+                            onClick={() => {
+                                navigate('/PrivacyPolicy')
+                            }}
+                            className=" btn-rounded btn btn-info">
+                            <span className=" text-white me-2">
+                                <i className="fas fa-lock"></i>
+                            </span>Privacy policy</button>
+                        <button type="button" onClick={() => {
+
+                        }} className=" btn-rounded btn btn-info"><span className="text-white me-2">
+                                <i className="fas fa-at"></i>
+                            </span>Contact us
+                        </button>
+                    </div>
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>This website uses cookies. We use cookies to personalise content/ads and to analyse our traffic.</p>
+                </div>
+            </div>
+            {isLoading && <BlurLoader />}
+        </>
+    )
+}
+export default HTMLToText;

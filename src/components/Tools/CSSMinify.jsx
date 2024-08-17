@@ -1,0 +1,332 @@
+import { useEffect, useRef, useState } from 'react';
+import { AlertBox } from '../CommonComponents/InputBox';
+import { post } from '../CommonComponents/CustomHooks';
+import { useNavigate } from "react-router-dom";
+import BlurLoader from '../CommonComponents/BlurLoader';
+import { toast } from 'react-hot-toast';
+const CSSMinify = () => {
+    const navigate = useNavigate();
+    const textareaRef = useRef(null);
+    const fileType = ['txt'];
+    const [isLoading, setIsLoading] = useState(false);
+    const [showDownload, setShowDownload] = useState(false);
+    const [responseValue, setResponseValue] = useState('');
+    const [base64Content, setBase64Content] = useState('');
+    const [fileuploded, setFileUploaded] = useState('Click (or tap) here to select a file');
+    const [formData, setFormData] = useState({
+        initialValue: '',
+        cute_comments: false,
+    });
+    const [fileUploaderFormData, setFileUploaderFormData] = useState({
+        initialValue: '',
+        cute_comments: false,
+    });
+    const handleClear = () => {
+        setFormData({
+            initialValue: '',
+            cute_comments: false,
+        })
+        setFileUploaderFormData({
+            initialValue: '',
+            cute_comments: false,
+        })
+        setResponseValue('')
+        setFileUploaded('Click (or tap) here to select a file')
+        setBase64Content('')
+        setShowDownload(false)
+    }
+    const handleSubmit = () => {
+        const data = {
+            ...formData,
+        }
+        setIsLoading(true)
+        post('/CSS_minify', { ...data }, (res) => {
+            if (res.status === 'success') {
+                setResponseValue(res.responseValue)
+                AlertBox(res.status, res.message, res.focus);
+                setIsLoading(false);
+            }
+            else if (res.status === 'error') {
+                AlertBox(res.status, res.message, 'txtValue1');
+                setIsLoading(false)
+            }
+        })
+    }
+    const handleDecodeFileUploader = () => {
+        const data = {
+            ...fileUploaderFormData,
+            type: 'CSS'
+        }
+        setIsLoading(true)
+        post('/file_minify', { ...data }, (res) => {
+            if (res.status === 'success') {
+                setBase64Content(res.responseValue)
+                AlertBox(res.status, res.message, res.focus);
+                setIsLoading(false);
+                setShowDownload(true)
+            }
+            else if (res.status === 'error') {
+                AlertBox(res.status, res.message, '');
+                setIsLoading(false)
+            }
+        })
+    }
+
+    const handleDownloadFile = () => {
+        if (base64Content !== '') {
+            try {
+                const decodedContent = atob(base64Content);
+                const blob = new Blob([decodedContent], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'CSS_Minified.txt';
+                document.body.appendChild(link);
+                link.click();
+
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Error decoding Base64 content:', error);
+            }
+        }
+    };
+    //const handleDownloadFile = () => {
+    //    if (base64Content !== '') {
+    //        try {
+    //            const blob = new Blob([base64Content], { type: 'text/plain' });
+    //            const url = URL.createObjectURL(blob);
+                
+    //            const link = document.createElement('a');
+    //            link.href = url;
+    //            link.download = 'CSS_Minified.txt'; 
+                
+    //            document.body.appendChild(link);
+    //            link.click();
+    //            document.body.removeChild(link);
+                
+    //            URL.revokeObjectURL(url);
+    //        } catch (error) {
+    //            console.error('Error handling CSS content:', error);
+    //        }
+    //    }
+    //};
+
+
+    const copyToClipboard = () => {
+        const textarea = textareaRef.current;
+        textarea.select();
+        document.execCommand('copy');
+        responseValue !== '' && toast.success('Text copied to clipboard!');
+    };
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
+        if (!file) {
+            AlertBox('ERROR', 'No file selected!', '');
+            return;
+        }
+        const extArr = file.name.split(".");
+        const fileExtension = extArr[extArr.length - 1];
+        setIsLoading(true);
+        if (fileType.includes(fileExtension.toLowerCase())) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                const img = reader.result;
+                const base64 = img.split(',')[1];
+                setIsLoading(false);
+                setFileUploaded(`File Uploaded Successfully - ${file.name}`);
+                setFileUploaderFormData((prev) => ({ ...prev, initialValue: base64 }));
+            };
+        } else {
+            setIsLoading(false);
+            AlertBox('ERROR', 'Please Upload a Valid File!', '');
+        }
+    };
+
+    useEffect(() => {
+        document.title = 'CSS Minify'
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+    return (
+        <>
+            <div className='main-card card  border-0'>
+                <div className='pt-1 row px-3 border-0'>
+                    <div className='card-header '>
+                        <h6 >{'CSS Minify'} </h6>
+                    </div>
+
+                    <div className='card-body mt-3 pb-1'>
+                        <p style={{ fontSize: '11px' }}>Simply enter your data then push the minify button.</p>
+                        <div className='row'>
+                            <div className="fields  ">
+                                <label className="form-label">CSS Minify</label>
+                                <textarea
+                                    id='txtValue1'
+                                    rows="3"
+                                    type="text"
+                                    className="form-control"
+                                    placeholder='Type (or Paste) here...'
+                                    value={formData.initialValue}
+                                    onChange={(e) => {
+                                        setFormData({ ...formData, initialValue: e.target.value })
+                                    }}
+                                />
+                            </div>
+                            <p style={{ fontSize: '11px' }}><i className="fa-solid fa-circle-info me-1"></i>To process files use the upload form a little further down on this page.</p>
+
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txtcute_comments'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={formData.cute_comments}
+                                    onChange={(e) => { setFormData({ ...formData, cute_comments: e.target.checked }) }}
+                                />
+                                <label htmlFor='txtcute_comments' style={{ cursor: "pointer" }}>
+                                    Keep newlines within and around preserved comments.
+                                </label>
+                            </div>
+
+
+
+                            <div className='d-flex align-items-center gap-1 mb-1' style={{ fontSize: '13px' }}>
+                                <button type="button"
+                                    onClick={handleSubmit}
+                                    className="btn btn-rounded btn-secondary">Minify</button>
+                                Minifies your data into the area below.
+                            </div>
+
+                            <div className="fields">
+                                <textarea
+                                    id='txtValue2'
+                                    rows="10"
+                                    type="text"
+                                    className="form-control"
+                                    placeholder='Result Goes here...'
+                                    value={responseValue}
+                                    ref={textareaRef}
+                                />
+                            </div>
+                            <div className='card-body'>
+                                <button type="button"
+                                    onClick={copyToClipboard}
+                                    className="btn btn-rounded btn-secondary">
+                                    <span className=" text-white me-2">
+                                        <i className="fas fa-copy"></i>
+                                    </span>Copy</button>
+
+                            </div>
+                            <p style={{ fontSize: '11px' }}>Select files to upload and process, then you can download the minified result..</p>
+
+
+                            <div className='fields' style={{ width: '100%', maxWidth: '1000px', }}>
+                                <label className="form-label"> Minify CSS files:</label>
+                                <div className="file">
+                                    <span className="detail"><i className="fas fa-file-alt me-2"></i>{fileuploded}</span>
+                                    <input type="file" accept=".txt" name="upload[]" onChange={handleFileUpload} id="upload"></input>
+                                </div>
+                            </div>
+
+                            <p style={{ fontSize: '11px' }}><i className="fa-solid fa-circle-info me-1"></i>No more than 100 files totaling 192MB in size. Multiple files will be merged in alphabetical order.</p>
+
+
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txtcute_commentsfile'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={fileUploaderFormData.cute_comments}
+                                    onChange={(e) => { setFileUploaderFormData({ ...fileUploaderFormData, cute_comments: e.target.checked }) }}
+                                />
+                                <label htmlFor='txtcute_commentsfile' style={{ cursor: "pointer" }}>
+                                    Keep newlines within and around preserved comments.
+                                </label>
+                            </div>
+
+
+
+                            <div>
+                                <button
+                                    type="button"
+                                    onClick={() => handleDecodeFileUploader()}
+                                    className="btn btn-rounded btn-secondary">Minify
+                                </button>
+                                <button type="button" onClick={() => handleClear()} className="btn btn-rounded btn-danger"><span className="text-white me-2">
+                                    <i className="fa-solid fa-arrow-rotate-left"></i>
+                                </span>Clear</button>
+                            </div>
+                            {showDownload &&
+                                <div className="state" data-state="success">
+                                    <i className="fas fa-check-circle me-2"></i>
+                                    <b>Success!</b>
+                                    <br />
+                                    <a onClick={handleDownloadFile} className="me-2" style={{ textDecoration: 'underline', color: "blue", cursor: 'pointer' }}>
+                                        CLICK OR TAP HERE
+                                    </a>
+                                    to download the Minified file.
+                                    <br />
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div className='main-card card  border-0'>
+                <div className='card-body mt-3 pb-1'>
+
+                    <div style={{ fontSize: '15px', fontWeight: "600" }}>
+                        <i className="fas fa-question-circle me-1"> </i>
+                        About
+                    </div>
+
+                    <div style={{ width: "100%", height: "1px", borderBottom: "1px dashed black", marginTop: "5px" }}></div>
+
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>Meet CSS Minify and Beautify, a simple online tool that does exactly what it says: minifies and beautifies Cascading Style Sheets quickly and easily. Minify your data without hassles or beautify it into a human-readable format.</p>
+                    <p style={{ fontSize: '12px', marginTop: "10px" }}>Minify (also known as uglify), in computer science is the process of removing all unnecessary characters from source code without changing its functionality. These unnecessary characters usually include white space characters, new line characters, comments, and sometimes block delimiters, which are used to add readability to the code but are not required for it to execute. Minified source code is especially useful for interpreted languages and data interchange formats deployed and transmitted on the internet (such as Cascading Style Sheet), because it reduces the amount of data that needs to be transferred.</p>
+                    <p style={{ fontSize: '12px', marginTop: "10px" }}>A minified source code may be reversed using a beautify (also known as prettify) process, which applies various stylistic formatting conventions to it. These formatting conventions usually adjust positioning, spacing, and similar modifications intended to make the content easier for people to view, read, and understand.</p>
+
+                    <div style={{ fontSize: '13px', fontWeight: "700", marginTop: "10px" }}>Easy to use</div>
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>Begin with the "type (or paste) here..." area to enter your data, then hit the "minify" or "beautify" buttons respectively. After a blink of any eye, the results will be shown below these buttons. Alternatively, use the "click (or tap) here..." area to select CSS files from your device, then hit the corresponding button. Once the upload and processing completes, you will be notified to download the resulting minified/beautified CSS file. That's all!</p>
+
+                    <div style={{ fontSize: '13px', fontWeight: "700", marginTop: "10px" }}>Safe and secure</div>
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>All communications with our servers are made through secure SSL encrypted connections (https). Uploaded files are deleted from our servers immediately after being processed, and the resulting downloadable CSS file is deleted right after the first download attempt, or 15 minutes of inactivity. We do not keep or inspect the contents of the entered data or uploaded files in any way. Read our privacy policy below for more details.</p>
+                    <div style={{ fontSize: '13px', fontWeight: "700", marginTop: "10px" }}>Completely free</div>
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>Our tool is free to use. From now on, you don't need to download any software for such simple tasks.</p>
+
+                    <p style={{ fontSize: '13px' }}><i className="fas fa-copyright me-1"></i> @2024<a href=' www.sagarinfotech.com'> www.sagarinfotech.com</a></p>
+                    <div className='card-body'>
+                        <button type="button"
+                            onClick={() => {
+                                navigate('/PrivacyPolicy')
+                            }}
+                            className=" btn-rounded btn btn-info">
+                            <span className=" text-white me-2">
+                                <i className="fas fa-lock"></i>
+                            </span>Privacy policy</button>
+                        <button type="button" onClick={() => {
+                            navigate('/AboutUs')
+
+                        }} className=" btn-rounded btn btn-info"><span className="text-white me-2">
+                                <i className="fas fa-users"></i>
+                            </span>About us
+                        </button>
+                        <button type="button" onClick={() => {
+
+                        }} className=" btn-rounded btn btn-info"><span className="text-white me-2">
+                                <i className="fas fa-at"></i>
+                            </span>Contact us
+                        </button>
+                    </div>
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>This website uses cookies. We use cookies to personalise content/ads and to analyse our traffic.</p>
+                </div>
+            </div>
+            {isLoading && <BlurLoader />}
+        </>
+    )
+}
+export default CSSMinify;

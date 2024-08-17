@@ -1,0 +1,764 @@
+﻿import { memo, useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+/*import { GetSession, RemoveSession } from '../../EnvConfig/env_config';*/
+/*import { ApiCall } from '../CommonComponents/CustomHooks';*/
+
+const Sidebar = () => {
+    const [menus, setMenus] = useState([
+        {
+            "mSortNo": "1",
+            "mPageID": "0",
+            "cssClass": "fa fa-dashboard",
+            "menuText": "Tools",
+            "getSubMenu": [
+                {
+                    "menuText": "Base64 Decode",
+                    "folderName": "Other tools",
+                    "pageUrl": "Base64Decode",
+                    "pageID": "1",
+                    "mpageID": "0"
+                }, {
+                    "menuText": "Base64 Encode",
+                    "folderName": "Other tools",
+                    "pageUrl": "Base64Encode",
+                    "pageID": "2",
+                    "mpageID": "0"
+                }, {
+                    "menuText": "URL Decode",
+                    "folderName": "Other tools",
+                    "pageUrl": "URLDecode",
+                    "pageID": "3",
+                    "mpageID": "0"
+                }, {
+                    "menuText": "URL Encode",
+                    "folderName": "Other tools",
+                    "pageUrl": "URLEncode",
+                    "pageID": "4",
+                    "mpageID": "0"
+                }, {
+                    "menuText": "JSON Minify",
+                    "folderName": "Other tools",
+                    "pageUrl": "JSONMinify",
+                    "pageID": "5",
+                    "mpageID": "0"
+                }, {
+                    "menuText": "JSON Beautify",
+                    "folderName": "Other tools",
+                    "pageUrl": "JSONBeautify",
+                    "pageID": "6",
+                    "mpageID": "0"
+                }, {
+                    "menuText": "JS Minify",
+                    "folderName": "Other tools",
+                    "pageUrl": "JSMinify",
+                    "pageID": "7",
+                    "mpageID": "0"
+                }, {
+                    "menuText": "JS Beautify",
+                    "folderName": "Other tools",
+                    "pageUrl": "JSBeautify",
+                    "pageID": "8",
+                    "mpageID": "0"
+                }, {
+                    "menuText": "CSS Minify",
+                    "folderName": "Other tools",
+                    "pageUrl": "CSSMinify",
+                    "pageID": "9",
+                    "mpageID": "0"
+                }, {
+                    "menuText": "CSS Beautify",
+                    "folderName": "Other tools",
+                    "pageUrl": "CSSBeautify",
+                    "pageID": "10",
+                    "mpageID": "0"
+                },
+
+            ]
+        },
+        {
+            "mSortNo": "2",
+            "mPageID": "1",
+            "cssClass": "fa fa-dashboard",
+            "menuText": "Converters",
+            "getSubMenu": [
+
+                {
+                    "menuText": "Binary To Decimal",
+                    "folderName": "Converters",
+                    "pageUrl": "BinaryToDecimal",
+                    "pageID": "1",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Binary To Hex",
+                    "folderName": "Converters",
+                    "pageUrl": "BinaryToHex",
+                    "pageID": "2",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Binary To Octal",
+                    "folderName": "Converters",
+                    "pageUrl": "BinaryToOctal",
+                    "pageID": "3",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Binary To Quaternary",
+                    "folderName": "Converters",
+                    "pageUrl": "BinaryToQuaternary",
+                    "pageID": "4",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Binary To Quinary",
+                    "folderName": "Converters",
+                    "pageUrl": "BinaryToQuinary",
+                    "pageID": "5",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Decimal To Binary",
+                    "folderName": "Converters",
+                    "pageUrl": "DecimalToBinary",
+                    "pageID": "6",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Decimal To Hex",
+                    "folderName": "Converters",
+                    "pageUrl": "DecimalToHex",
+                    "pageID": "7",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Decimal To Octal",
+                    "folderName": "Converters",
+                    "pageUrl": "DecimalToOctal",
+                    "pageID": "8",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Decimal To Quaternary",
+                    "folderName": "Converters",
+                    "pageUrl": "DecimalToQuaternary",
+                    "pageID": "9",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Decimal To Quinary",
+                    "folderName": "Converters",
+                    "pageUrl": "DecimalToQuinary",
+                    "pageID": "10",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Hex To Binary",
+                    "folderName": "Converters",
+                    "pageUrl": "HexToBinary",
+                    "pageID": "11",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Hex To Decimal",
+                    "folderName": "Converters",
+                    "pageUrl": "HexToDecimal",
+                    "pageID": "12",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Hex To Octal",
+                    "folderName": "Converters",
+                    "pageUrl": "HexToOctal",
+                    "pageID": "13",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Hex To Quaternary",
+                    "folderName": "Converters",
+                    "pageUrl": "HexToQuaternary",
+                    "pageID": "14",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Hex To Quinary",
+                    "folderName": "Converters",
+                    "pageUrl": "HexToQuinary",
+                    "pageID": "15",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "HTML To Text",
+                    "folderName": "Converters",
+                    "pageUrl": "HTMLToText",
+                    "pageID": "16",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Octal To Binary",
+                    "folderName": "Converters",
+                    "pageUrl": "OctalToBinary",
+                    "pageID": "17",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Octal To Decimal",
+                    "folderName": "Converters",
+                    "pageUrl": "OctalToDecimal",
+                    "pageID": "18",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Octal To Hex",
+                    "folderName": "Converters",
+                    "pageUrl": "OctalToHex",
+                    "pageID": "19",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Octal To Quaternary",
+                    "folderName": "Converters",
+                    "pageUrl": "OctalToQuaternary",
+                    "pageID": "20",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Octal To Quinary",
+                    "folderName": "Converters",
+                    "pageUrl": "OctalToQuinary",
+                    "pageID": "21",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Quaternary To Binary",
+                    "folderName": "Converters",
+                    "pageUrl": "QuaternaryToBinary",
+                    "pageID": "22",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Quaternary To Decimal",
+                    "folderName": "Converters",
+                    "pageUrl": "QuaternaryToDecimal",
+                    "pageID": "23",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Quaternary To Hex",
+                    "folderName": "Converters",
+                    "pageUrl": "QuaternaryToHex",
+                    "pageID": "24",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Quaternary To Octal",
+                    "folderName": "Converters",
+                    "pageUrl": "QuaternaryToOctal",
+                    "pageID": "25",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Quaternary To Quinary",
+                    "folderName": "Converters",
+                    "pageUrl": "QuaternaryToQuinary",
+                    "pageID": "26",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Quinary To Binary",
+                    "folderName": "Converters",
+                    "pageUrl": "QuinaryToBinary",
+                    "pageID": "27",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Quinary To Decimal",
+                    "folderName": "Converters",
+                    "pageUrl": "QuinaryToDecimal",
+                    "pageID": "28",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Quinary To Hex",
+                    "folderName": "Converters",
+                    "pageUrl": "QuinaryToHex",
+                    "pageID": "29",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Quinary To Octal",
+                    "folderName": "Converters",
+                    "pageUrl": "QuinaryToOctal",
+                    "pageID": "30",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Quinary To Quaternary",
+                    "folderName": "Converters",
+                    "pageUrl": "QuinaryToQuaternary",
+                    "pageID": "31",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Centimeter To Foot",
+                    "folderName": "Converters",
+                    "pageUrl": "CentimeterToFoot",
+                    "pageID": "32",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Centimeter To Inch",
+                    "folderName": "Converters",
+                    "pageUrl": "CentimeterToInch",
+                    "pageID": "33",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Centimeter To Kilometer",
+                    "folderName": "Converters",
+                    "pageUrl": "CentimeterToKilometer",
+                    "pageID": "34",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Centimeter To Meter",
+                    "folderName": "Converters",
+                    "pageUrl": "CentimeterToMeter",
+                    "pageID": "35",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Centimeter To Mile",
+                    "folderName": "Converters",
+                    "pageUrl": "CentimeterToMile",
+                    "pageID": "36",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Foot to Centimeter",
+                    "folderName": "Converters",
+                    "pageUrl": "FootToCentimeter",
+                    "pageID": "37",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Foot to Inch",
+                    "folderName": "Converters",
+                    "pageUrl": "FootToInch",
+                    "pageID": "38",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Foot to Kilometer",
+                    "folderName": "Converters",
+                    "pageUrl": "FootToKilometer",
+                    "pageID": "39",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Foot to Meter",
+                    "folderName": "Converters",
+                    "pageUrl": "FootToMeter",
+                    "pageID": "40",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Foot to Mile",
+                    "folderName": "Converters",
+                    "pageUrl": "FootToMile",
+                    "pageID": "41",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Inch To Centimeter",
+                    "folderName": "Converters",
+                    "pageUrl": "InchToCentimeter",
+                    "pageID": "42",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Inch To Foot",
+                    "folderName": "Converters",
+                    "pageUrl": "InchToFoot",
+                    "pageID": "43",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Inch To Kilometer",
+                    "folderName": "Converters",
+                    "pageUrl": "InchToKilometer",
+                    "pageID": "44",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Inch To Meter",
+                    "folderName": "Converters",
+                    "pageUrl": "InchToMeter",
+                    "pageID": "45",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Inch To Mile",
+                    "folderName": "Converters",
+                    "pageUrl": "InchToMile",
+                    "pageID": "46",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Kilometer To Foot",
+                    "folderName": "Converters",
+                    "pageUrl": "KilometerToFoot",
+                    "pageID": "47",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Kilometer To Inch",
+                    "folderName": "Converters",
+                    "pageUrl": "KilometerToInch",
+                    "pageID": "48",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Kilometer To Meter",
+                    "folderName": "Converters",
+                    "pageUrl": "KilometerToMeter",
+                    "pageID": "49",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Kilometer To Mile",
+                    "folderName": "Converters",
+                    "pageUrl": "KilometerToMile",
+                    "pageID": "50",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Kilometer To Centimeter",
+                    "folderName": "Converters",
+                    "pageUrl": "KilometerToCentimeter",
+                    "pageID": "51",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Meter To Centimeter",
+                    "folderName": "Converters",
+                    "pageUrl": "MeterToCentimeter",
+                    "pageID": "52",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Meter To Foot",
+                    "folderName": "Converters",
+                    "pageUrl": "MeterToFoot",
+                    "pageID": "53",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Meter To Inch",
+                    "folderName": "Converters",
+                    "pageUrl": "MeterToInch",
+                    "pageID": "54",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Meter To Kilometer",
+                    "folderName": "Converters",
+                    "pageUrl": "MeterToKilometer",
+                    "pageID": "55",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Meter To Mile",
+                    "folderName": "Converters",
+                    "pageUrl": "MeterToMile",
+                    "pageID": "56",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Mile To Centimeter",
+                    "folderName": "Converters",
+                    "pageUrl": "MileToCentimeter",
+                    "pageID": "57",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Mile To Foot",
+                    "folderName": "Converters",
+                    "pageUrl": "MileToFoot",
+                    "pageID": "58",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Mile To Inch",
+                    "folderName": "Converters",
+                    "pageUrl": "MileToInch",
+                    "pageID": "59",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Mile To Kilometer",
+                    "folderName": "Converters",
+                    "pageUrl": "MileToKilometer",
+                    "pageID": "60",
+                    "mpageID": "1"
+                },
+                {
+                    "menuText": "Mile To Meter",
+                    "folderName": "Converters",
+                    "pageUrl": "MileToMeter",
+                    "pageID": "61",
+                    "mpageID": "1"
+                },
+
+            ]
+        },
+
+        {
+            "mSortNo": "3",
+            "mPageID": "2",
+            "cssClass": "fa fa-dashboard",
+            "menuText": "Decoders",
+            "getSubMenu": [
+                {
+                    "menuText": "Base64 To ASCII",
+                    "folderName": "Decoders",
+                    "pageUrl": "Base64ToASCII",
+                    "pageID": "1",
+                    "mpageID": "2"
+                }, {
+                    "menuText": "Base64 To Audio",
+                    "folderName": "Decoders",
+                    "pageUrl": "Base64ToAudio ",
+                    "pageID": "2",
+                    "mpageID": "2"
+                },
+                {
+                    "menuText": "Base64 to File",
+                    "folderName": "Decoders",
+                    "pageUrl": "Base64ToFile",
+                    "pageID": "3",
+                    "mpageID": "2"
+                },
+                {
+                    "menuText": "Base64 To Hex",
+                    "folderName": "Decoders",
+                    "pageUrl": "Base64ToHex",
+                    "pageID": "4",
+                    "mpageID": "2"
+                },
+                {
+                    "menuText": "Base64 To Image",
+                    "folderName": "Decoders",
+                    "pageUrl": "Base64ToImage",
+                    "pageID": "5",
+                    "mpageID": "2"
+                },
+                {
+                    "menuText": "Base64 To Pdf",
+                    "folderName": "Decoders",
+                    "pageUrl": "Base64ToPdf",
+                    "pageID": "6",
+                    "mpageID": "2"
+                },
+                {
+                    "menuText": "Base64 To Text",
+                    "folderName": "Decoders",
+                    "pageUrl": "Base64ToText",
+                    "pageID": "7",
+                    "mpageID": "2"
+                },
+                {
+                    "menuText": "Base64 To Video",
+                    "folderName": "Decoders",
+                    "pageUrl": "Base64ToVideo",
+                    "pageID": "8",
+                    "mpageID": "2"
+                },
+
+            ]
+        },
+        {
+            "mSortNo": "4",
+            "mPageID": "3",
+            "cssClass": "fa fa-dashboard",
+            "menuText": "Encoders",
+            "getSubMenu": [
+                {
+                    "menuText": "Audio To Base64",
+                    "folderName": "Encoders",
+                    "pageUrl": "AudioToBase64",
+                    "pageID": "1",
+                    "mpageID": "2"
+                }, {
+                    "menuText": "CSS To Base64",
+                    "folderName": "Encoders",
+                    "pageUrl": "CSSToBase64 ",
+                    "pageID": "2",
+                    "mpageID": "2"
+                }, {
+                    "menuText": "File To Base64",
+                    "folderName": "Encoders",
+                    "pageUrl": "FileToBase64",
+                    "pageID": "3",
+                    "mpageID": "2"
+                }, {
+                    "menuText": "Hex To Base64",
+                    "folderName": "Encoders",
+                    "pageUrl": "HexToBase64",
+                    "pageID": "4",
+                    "mpageID": "2"
+                }, {
+                    "menuText": "HTML To Base64",
+                    "folderName": "Encoders",
+                    "pageUrl": "HTMLToBase64",
+                    "pageID": "5",
+                    "mpageID": "2"
+                }, {
+                    "menuText": "Image To Base64",
+                    "folderName": "Encoders",
+                    "pageUrl": "ImageToBase64",
+                    "pageID": "6",
+                    "mpageID": "2"
+                }, {
+                    "menuText": "PDF To Base64",
+                    "folderName": "Encoders",
+                    "pageUrl": "PDFToBase64",
+                    "pageID": "7",
+                    "mpageID": "2"
+                }, {
+                    "menuText": "URL To Base64",
+                    "folderName": "Encoders",
+                    "pageUrl": "URLToBase64",
+                    "pageID": "8",
+                    "mpageID": "2"
+                }, {
+                    "menuText": "Video To Base64",
+                    "folderName": "Encoders",
+                    "pageUrl": "VideoToBase64",
+                    "pageID": "9",
+                    "mpageID": "2"
+                },
+
+            ]
+        },
+
+    ]);
+
+    const [formData, setFormData] = useState({
+        SearchKey: ""
+    })
+    let results = [];
+    const SerchingSidbar = () => {
+        let searchData = formData.SearchKey;
+
+
+        if (searchData) {
+            menus.forEach(item => {
+                let val = item.getSubMenu;
+                val.forEach(i => {
+                    if (i.menuText.toLowerCase().includes(searchData.toLowerCase())) {
+                        results.push(i);
+                    }
+                });
+            });
+        }
+
+        return results;
+    };
+    SerchingSidbar();
+    const urlFocusSidebar = () => {
+        let url = window.location.pathname
+        let mainUrl = url.split('/')
+        menus.forEach(item => {
+            let value = item.getSubMenu;
+            value.forEach(i => {
+                if (i.pageUrl.toLowerCase() === mainUrl[1].toLowerCase()) {
+                    localStorage.setItem('ID', i.mpageID)
+                }
+            })
+        })
+    }
+    useEffect(() => {
+        urlFocusSidebar()
+    }, []);
+
+    return (
+        <>
+            <div className='px-2'>
+                <input
+                    id="txtSearchKey"
+                    type="SearchKey"
+                    placeholder="Search ..."
+                    value={formData.SearchKey}
+                    onChange={(e) => {
+                        setFormData({ ...formData, SearchKey: e.target.value })
+                    }}
+                    className="searchMenu"
+                />
+
+                {results.map((subMenu, i) => (
+                    <div key={i} className='mx-4 my-1 ' onClick={() => localStorage.setItem('ID', subMenu.mpageID)}>
+                        <NavLink to={`/${(subMenu.pageUrl)}`}
+                            id={subMenu.pageID}
+                            className="textDeco"
+                        >
+                            <i className={subMenu.cssClass} />
+                            <span className='text-black' style={{ fontSize: '13px' }}>{(subMenu.menuText).trim()}</span>
+                        </NavLink>
+                    </div>
+                ))}
+                <ul className="sidebar-nav " id="sidebar-nav" >
+                    {menus !== null &&
+                        (menus.map((menu, index) => (
+                            <li className="nav-item " style={{ cursor: "pointer", }} key={index}>
+                                {menu.getSubMenu !== null ?
+                                    (
+                                        <>
+                                            <div
+                                                className={`nav-link collapsed  cursor-pointer`} style={{ backgroundColor: "#51575b" }}
+                                                data-bs-target={`#${(menu.menuText).replaceAll(' ', '').replaceAll('&', '')}`}
+                                                data-bs-toggle="collapse"
+                                            >
+                                                <i className={menu.cssClass} />
+                                                <span>{menu.menuText}</span>
+                                                <i className="bi bi-chevron-down ms-auto" />
+                                            </div>
+
+                                            <ul
+                                                id={`${(menu.menuText).replaceAll(' ', '').replaceAll('&', '')}`}
+                                                className={`nav-content collapse open sidebar-submenu ${menu.getSubMenu[0].mpageID === localStorage.getItem('ID') ? 'show' : ''}`}
+                                                data-bs-parent="#sidebar-nav"
+                                            >
+                                                {menu.getSubMenu.map((subMenu, i) => (
+                                                    <li key={i} className='mx-2 my-1' onClick={() => localStorage.setItem('ID', subMenu.mpageID)}>
+                                                        <NavLink to={`/${(subMenu.pageUrl)}`}
+                                                            id={subMenu.pageID}>
+                                                            <i className={subMenu.cssClass} />
+                                                            <span>{(subMenu.menuText).trim()}</span>
+                                                        </NavLink>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </>
+                                    ) : (
+                                        <NavLink
+                                            className="nav-link collapsed"
+                                            cursor-pointer
+                                            key={index}
+                                            to={`/${menu.pageUrl}`}
+                                        >
+                                            <i className={menu.cssClass} />
+                                            <span>{menu.menuText}</span>
+                                            <i className="bi bi-chevron-down ms-auto" />
+                                        </NavLink>
+                                    )}
+                            </li>
+                        )))}
+                </ul>
+            </div>
+        </>
+    )
+}
+export default memo(Sidebar)
+
+

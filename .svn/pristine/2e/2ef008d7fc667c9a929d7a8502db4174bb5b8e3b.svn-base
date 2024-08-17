@@ -1,0 +1,563 @@
+import { useEffect, useRef, useState } from 'react';
+import { AlertBox } from '../CommonComponents/InputBox';
+import { post } from '../CommonComponents/CustomHooks';
+import { useNavigate } from "react-router-dom";
+import BlurLoader from '../CommonComponents/BlurLoader';
+const JSONBeautify = () => {
+    const navigate = useNavigate();
+    const textareaRef = useRef(null);
+    const fileType = ['txt'];
+    const [isLoading, setIsLoading] = useState(false);
+    const [showDownload, setShowDownload] = useState(false);
+    const [responseValue, setResponseValue] = useState('');
+    const [base64Content, setBase64Content] = useState('');
+    const [fileuploded, setFileUploaded] = useState('Click (or tap) here to select a file');
+    const [formData, setFormData] = useState({
+        initialValue: '',
+        hex_quot: false,
+        hex_tag: false,
+        hex_amp: false,
+        hex_apos: false,
+        unescaped_slashes: false,
+        numeric_check: false,
+        preserve_zero_fraction: false,
+        force_object: false,
+        unescaped_unicode: false,
+        unescaped_line_terminators: false,
+
+    });
+    const [fileUploaderFormData, setFileUploaderFormData] = useState({
+        initialValue: '',
+        hex_quot: false,
+        hex_tag: false,
+        hex_amp: false,
+        hex_apos: false,
+        unescaped_slashes: false,
+        numeric_check: false,
+        preserve_zero_fraction: false,
+        force_object: false,
+        unescaped_unicode: false,
+        unescaped_line_terminators: false,
+    });
+    const handleClear = () => {
+        setFormData({
+            initialValue: '',
+            hex_quot: false,
+            hex_tag: false,
+            hex_amp: false,
+            hex_apos: false,
+            unescaped_slashes: false,
+            numeric_check: false,
+            preserve_zero_fraction: false,
+            force_object: false,
+            unescaped_unicode: false,
+            unescaped_line_terminators: false,
+        })
+        setFileUploaderFormData({
+            initialValue: '',
+            hex_quot: false,
+            hex_tag: false,
+            hex_amp: false,
+            hex_apos: false,
+            unescaped_slashes: false,
+            numeric_check: false,
+            preserve_zero_fraction: false,
+            force_object: false,
+            unescaped_unicode: false,
+            unescaped_line_terminators: false,
+        })
+        setResponseValue('')
+        setFileUploaded('Click (or tap) here to select a file')
+        setBase64Content('')
+        setShowDownload(false)
+    }
+    const handleSubmit = () => {
+        const data = {
+            ...formData,
+        }
+        setIsLoading(true)
+        post('/JSON_beautify', { ...data }, (res) => {
+            if (res.status === 'success') {
+                setResponseValue(res.responseValue)
+                AlertBox(res.status, res.message, res.focus);
+                setIsLoading(false);
+            }
+            else if (res.status === 'error') {
+                AlertBox(res.status, res.message, '');
+                setIsLoading(false)
+            }
+        })
+    }
+    const handleBeautifyFileUploader = () => {
+        const data = {
+            ...fileUploaderFormData,
+            type: 'JSON'
+        }
+        setIsLoading(true)
+        post('/file_beautify', { ...data }, (res) => {
+            if (res.status === 'success') {
+                setBase64Content(res.responseValue)
+                AlertBox(res.status, res.message, res.focus);
+                setIsLoading(false);
+                setShowDownload(true)
+            }
+            else if (res.status === 'error') {
+                AlertBox(res.status, res.message, '');
+                setIsLoading(false)
+            }
+        })
+    }
+    const handleDownloadFile = () => {
+        console.log('Downloading file...');
+        if (base64Content !== '') {
+            try {
+                const decodedContent = atob(base64Content);
+                const jsonContent = JSON.parse(decodedContent);
+                const jsonString = JSON.stringify(jsonContent, null, 2);
+                const blob = new Blob([jsonString], { type: 'application/json' });
+
+                // Create a URL for the Blob
+                const url = URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'BeautifyJSON.txt';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Error decoding or parsing Base64 content:', error);
+            }
+        }
+    };
+
+
+    const copyToClipboard = () => {
+        const textarea = textareaRef.current;
+        textarea.select();
+        document.execCommand('copy');
+        responseValue !== '' && AlertBox('SUCCESS', 'Text copied to clipboard!', '');
+    };
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
+        if (!file) {
+            AlertBox('ERROR', 'No file selected!', '');
+            return;
+        }
+        const extArr = file.name.split(".");
+        const fileExtension = extArr[extArr.length - 1];
+        setIsLoading(true);
+        if (fileType.includes(fileExtension.toLowerCase())) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                const img = reader.result;
+                const base64Image = img.split(',')[1];
+                setIsLoading(false);
+                setFileUploaded(`File Uploaded Successfully - ${file.name}`);
+                setFileUploaderFormData((prev) => ({ ...prev, initialValue: base64Image }));
+            };
+        } else {
+            setIsLoading(false);
+            AlertBox('ERROR', 'Please Upload a Valid File!', '');
+        }
+    };
+
+    useEffect(() => {
+        document.title = 'JSON Beautify'
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+    return (
+        <>
+            <div className='main-card card  border-0'>
+                <div className='pt-1 row px-3 border-0'>
+                    <div className='card-header '>
+                        <h6 >{'JSON Beautify'} </h6>
+                    </div>
+
+                    <div className='card-body mt-3 pb-1'>
+                        <p style={{ fontSize: '11px' }}>Simply enter your data then push the beautify button.</p>
+                        <div className='row'>
+                            <div className="fields  ">
+                                <label className="form-label">JSON Beautify</label>
+                                <textarea
+                                    id='txtValue1'
+                                    rows="3"
+                                    type="text"
+                                    className="form-control"
+                                    placeholder='Type (or Paste) here...'
+                                    value={formData.initialValue}
+                                    onChange={(e) => {
+                                        setFormData({ ...formData, initialValue: e.target.value })
+                                    }}
+                                />
+                            </div>
+                            <p style={{ fontSize: '11px' }}><i className="fa-solid fa-circle-info me-1"></i>To process files use the upload form a little further down on this page.</p>
+
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txthex_quot'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={formData.hex_quot}
+                                    onChange={(e) => { setFormData({ ...formData, hex_quot: e.target.checked }) }}
+                                />
+                                <label htmlFor='txthex_quot' style={{ cursor: "pointer" }}>
+                                    Convert all " to \u0022.
+                                </label>
+                            </div>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txthex_tag'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={formData.hex_tag}
+                                    onChange={(e) => { setFormData({ ...formData, hex_tag: e.target.checked }) }}
+                                />
+                                <label htmlFor='txthex_tag' style={{ cursor: "pointer" }}>
+                                    {`Convert all < and > to`} \u003C and \u003E.
+                                </label>
+                            </div>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txthex_amp'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={formData.hex_amp}
+                                    onChange={(e) => { setFormData({ ...formData, hex_amp: e.target.checked }) }}
+                                />
+                                <label htmlFor='txthex_amp' style={{ cursor: "pointer" }}>
+                                    {`Convert all & to`} \u0026.
+                                </label>
+                            </div>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txthex_apos'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={formData.hex_apos}
+                                    onChange={(e) => { setFormData({ ...formData, hex_apos: e.target.checked }) }}
+                                />
+                                <label htmlFor='txthex_apos' style={{ cursor: "pointer" }}>
+                                    {`Convert all ' to `} \u0027.
+                                </label>
+                            </div>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txtunescaped_slashes'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={formData.unescaped_slashes}
+                                    onChange={(e) => { setFormData({ ...formData, unescaped_slashes: e.target.checked }) }}
+                                />
+                                <label htmlFor='txtunescaped_slashes' style={{ cursor: "pointer" }}>
+                                    Don't escape any /.
+                                </label>
+                            </div>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txtnumeric_check'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={formData.numeric_check}
+                                    onChange={(e) => { setFormData({ ...formData, numeric_check: e.target.checked }) }}
+                                />
+                                <label htmlFor='txtnumeric_check' style={{ cursor: "pointer" }}>
+                                    Encode numeric strings as numbers.
+                                </label>
+                            </div>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txtpreserve_zero_fraction'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={formData.preserve_zero_fraction}
+                                    onChange={(e) => { setFormData({ ...formData, preserve_zero_fraction: e.target.checked }) }}
+                                />
+                                <label htmlFor='txtpreserve_zero_fraction' style={{ cursor: "pointer" }}>
+                                    Ensure to preserve zero fractions for float values.
+                                </label>
+                            </div>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txtforce_object'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={formData.force_object}
+                                    onChange={(e) => { setFormData({ ...formData, force_object: e.target.checked }) }}
+                                />
+                                <label htmlFor='txtforce_object' style={{ cursor: "pointer" }}>
+                                    Always output an object rather than an array when a non-associative array is provided.
+                                </label>
+                            </div>
+
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txtunescaped_unicode'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={formData.unescaped_unicode}
+                                    onChange={(e) => { setFormData({ ...formData, unescaped_unicode: e.target.checked }) }}
+                                />
+                                <label htmlFor='txtunescaped_unicode' style={{ cursor: "pointer" }}>
+                                    Encode unicode characters literally (default is to escape as \uXXXX).
+                                </label>
+                            </div>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txtunescaped_line_terminators'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={formData.unescaped_line_terminators}
+                                    onChange={(e) => { setFormData({ ...formData, unescaped_line_terminators: e.target.checked }) }}
+                                />
+                                <label htmlFor='txtunescaped_line_terminators' style={{ cursor: "pointer" }}>
+                                    Keep line terminators \u2028 and \u2029 unescaped when unicode characters kept literally.
+                                </label>
+                            </div>
+
+
+                            <div className='d-flex align-items-center gap-1 mb-1' style={{ fontSize: '13px' }}>
+                                <button type="button"
+                                    onClick={handleSubmit}
+                                    className="btn btn-rounded btn-secondary">Beautify</button>
+                                Beautifies your data into the area below.
+                            </div>
+
+                            <div className="fields">
+                                <textarea
+                                    id='txtValue2'
+                                    rows="10"
+                                    type="text"
+                                    className="form-control"
+                                    placeholder='Result Goes here...'
+                                    value={responseValue}
+                                    ref={textareaRef}
+                                />
+                            </div>
+                            <div className='card-body'>
+                                <button type="button"
+                                    onClick={copyToClipboard}
+                                    className="btn btn-rounded btn-secondary">
+                                    <span className=" text-white me-2">
+                                        <i className="fas fa-copy"></i>
+                                    </span>Copy</button>
+
+                            </div>
+                            <p style={{ fontSize: '11px' }}>Select files to upload and process, then you can download the beautified result.</p>
+
+                            <div className='fields' style={{ width: '100%', maxWidth: '1000px', }}>
+                                <label className="form-label"> Beautify JSON files:</label>
+                                <div className="file">
+                                    <span className="detail"><i className="fas fa-file-alt me-2"></i>{fileuploded}</span>
+                                    <input type="file" accept=".txt" name="upload[]" onChange={handleFileUpload} id="upload"></input>
+                                </div>
+                            </div>
+
+                            <p style={{ fontSize: '11px' }}><i className="fa-solid fa-circle-info me-1"></i>No more than 100 files totaling 192MB in size. Multiple files will be merged in alphabetical order.</p>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txthex_quotfile'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={fileUploaderFormData.hex_quot}
+                                    onChange={(e) => { setFileUploaderFormData({ ...fileUploaderFormData, hex_quot: e.target.checked }) }}
+                                />
+                                <label htmlFor='txthex_quotfile' style={{ cursor: "pointer" }}>
+                                    Convert all " to \u0022.
+                                </label>
+                            </div>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txthex_tagfile'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={fileUploaderFormData.hex_tag}
+                                    onChange={(e) => { setFileUploaderFormData({ ...fileUploaderFormData, hex_tag: e.target.checked }) }}
+                                />
+                                <label htmlFor='txthex_tagfile' style={{ cursor: "pointer" }}>
+                                    {`Convert all < and > to`} \u003C and \u003E.
+                                </label>
+                            </div>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txthex_ampfile'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={fileUploaderFormData.hex_amp}
+                                    onChange={(e) => { setFileUploaderFormData({ ...fileUploaderFormData, hex_amp: e.target.checked }) }}
+                                />
+                                <label htmlFor='txthex_ampfile' style={{ cursor: "pointer" }}>
+                                    {`Convert all & to`} \u0026.
+                                </label>
+                            </div>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txthex_aposfile'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={fileUploaderFormData.hex_apos}
+                                    onChange={(e) => { setFileUploaderFormData({ ...fileUploaderFormData, hex_apos: e.target.checked }) }}
+                                />
+                                <label htmlFor='txthex_aposfile' style={{ cursor: "pointer" }}>
+                                    {`Convert all ' to `} \u0027.
+                                </label>
+                            </div>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txtunescaped_slashesfile'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={fileUploaderFormData.unescaped_slashes}
+                                    onChange={(e) => { setFileUploaderFormData({ ...fileUploaderFormData, unescaped_slashes: e.target.checked }) }}
+                                />
+                                <label htmlFor='txtunescaped_slashesfile' style={{ cursor: "pointer" }}>
+                                    Don't escape any /.
+                                </label>
+                            </div>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txtnumeric_checkfile'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={fileUploaderFormData.numeric_check}
+                                    onChange={(e) => { setFileUploaderFormData({ ...fileUploaderFormData, numeric_check: e.target.checked }) }}
+                                />
+                                <label htmlFor='txtnumeric_checkfile' style={{ cursor: "pointer" }}>
+                                    Encode numeric strings as numbers.
+                                </label>
+                            </div>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txtpreserve_zero_fractionfile'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={fileUploaderFormData.preserve_zero_fraction}
+                                    onChange={(e) => { setFileUploaderFormData({ ...fileUploaderFormData, preserve_zero_fraction: e.target.checked }) }}
+                                />
+                                <label htmlFor='txtpreserve_zero_fractionfile' style={{ cursor: "pointer" }}>
+                                    Ensure to preserve zero fractions for float values.
+                                </label>
+                            </div>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txtforce_objectfile'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={fileUploaderFormData.force_object}
+                                    onChange={(e) => { setFileUploaderFormData({ ...fileUploaderFormData, force_object: e.target.checked }) }}
+                                />
+                                <label htmlFor='txtforce_objectfile' style={{ cursor: "pointer" }}>
+                                    Always output an object rather than an array when a non-associative array is provided.
+                                </label>
+                            </div>
+
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txtunescaped_unicodefile'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={fileUploaderFormData.unescaped_unicode}
+                                    onChange={(e) => { setFileUploaderFormData({ ...fileUploaderFormData, unescaped_unicode: e.target.checked }) }}
+                                />
+                                <label htmlFor='txtunescaped_unicodefile' style={{ cursor: "pointer" }}>
+                                    Encode unicode characters literally (default is to escape as \uXXXX).
+                                </label>
+                            </div>
+                            <div className='d-flex align-items-center gap-1 mb-2 ' style={{ fontSize: '13px' }}>
+                                <input
+                                    id='txtunescaped_line_terminatorsfile'
+                                    type="checkbox"
+                                    style={{ cursor: "pointer" }}
+                                    checked={fileUploaderFormData.unescaped_line_terminators}
+                                    onChange={(e) => { setFileUploaderFormData({ ...fileUploaderFormData, unescaped_line_terminators: e.target.checked }) }}
+                                />
+                                <label htmlFor='txtunescaped_line_terminatorsfile' style={{ cursor: "pointer" }}>
+                                    Keep line terminators \u2028 and \u2029 unescaped when unicode characters kept literally.
+                                </label>
+                            </div>
+
+                            <div>
+                                <button
+                                    type="button"
+                                    onClick={() => handleBeautifyFileUploader()}
+                                    className="btn btn-rounded btn-secondary">Beautify
+                                </button>
+                                <button type="button" onClick={() => handleClear()} className="btn btn-rounded btn-danger"><span className="text-white me-2">
+                                    <i className="fa-solid fa-arrow-rotate-left"></i>
+                                </span>Clear</button>
+                            </div>
+                            {showDownload &&
+                                <div className="state" data-state="success">
+                                    <i className="fas fa-check-circle me-2"></i>
+                                    <b>Success!</b>
+                                    <br />
+                                    <a onClick={handleDownloadFile} className="me-2" style={{ textDecoration: 'underline', color: "blue", cursor: 'pointer' }}>
+                                        CLICK OR TAP HERE
+                                    </a>
+                                    to download the Beautify file.
+                                    <br />
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div className='main-card card  border-0'>
+                <div className='card-body mt-3 pb-1'>
+
+                    <div style={{ fontSize: '15px', fontWeight: "600" }}>
+                        <i className="fas fa-question-circle me-1"> </i>
+                        About
+                    </div>
+
+                    <div style={{ width: "100%", height: "1px", borderBottom: "1px dashed black", marginTop: "5px" }}></div>
+
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>Meet JSON Minify and Beautify, a simple online tool that does exactly what it says: minifies and beautifies JavaScript Object Notations quickly and easily. Minify your data without hassles or beautify it into a human-readable format.</p>
+                    <p style={{ fontSize: '12px', marginTop: "10px" }}>Minify (also known as uglify), in computer science is the process of removing all unnecessary characters from source code without changing its functionality. These unnecessary characters usually include white space characters, new line characters, comments, and sometimes block delimiters, which are used to add readability to the code but are not required for it to execute. Minified source code is especially useful for interpreted languages and data interchange formats deployed and transmitted on the internet (such as JavaScript Object Notation), because it reduces the amount of data that needs to be transferred.</p>
+                    <p style={{ fontSize: '12px', marginTop: "10px" }}>A minified source code may be reversed using a beautify (also known as prettify) process, which applies various stylistic formatting conventions to it. These formatting conventions usually adjust positioning, spacing, and similar modifications intended to make the content easier for people to view, read, and understand.</p>
+
+                    <div style={{ fontSize: '13px', fontWeight: "700", marginTop: "10px" }}>Easy to use</div>
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>Begin with the "type (or paste) here..." area to enter your data, then hit the "minify" or "beautify" buttons respectively. After a blink of any eye, the results will be shown below these buttons. Alternatively, use the "click (or tap) here..." area to select a JSON file from your device, then hit the corresponding button. Once the upload and processing completes, you will be notified to download the resulting minified/beautified JSON file. That's all!</p>
+
+                    <div style={{ fontSize: '13px', fontWeight: "700", marginTop: "10px" }}>Safe and secure</div>
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>All communications with our servers come through secure SSL encrypted connections (https). We delete uploaded files from our servers immediately after being processed and the resulting downloadable file is deleted right after the first download attempt or 15 minutes of inactivity (whichever is shorter). We do not keep or inspect the contents of the submitted data or uploaded files in any way. Read our privacy policy below for more details.</p>
+                    <div style={{ fontSize: '13px', fontWeight: "700", marginTop: "10px" }}>Completely free</div>
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>Our tool is free to use. From now on, you don't need to download any software for such simple tasks.</p>
+
+                    <p style={{ fontSize: '13px' }}><i className="fas fa-copyright me-1"></i> @2024<a href=' www.sagarinfotech.com'> www.sagarinfotech.com</a></p>
+                    <div className='card-body'>
+                        <button type="button"
+                            onClick={() => {
+                                navigate('/PrivacyPolicy')
+                            }}
+                            className=" btn-rounded btn btn-info">
+                            <span className=" text-white me-2">
+                                <i className="fas fa-lock"></i>
+                            </span>Privacy policy</button>
+                        <button type="button" onClick={() => {
+                            navigate('/AboutUs')
+
+                        }} className=" btn-rounded btn btn-info"><span className="text-white me-2">
+                                <i className="fas fa-users"></i>
+                            </span>About us
+                        </button>
+                        <button type="button" onClick={() => {
+
+                        }} className=" btn-rounded btn btn-info"><span className="text-white me-2">
+                                <i className="fas fa-at"></i>
+                            </span>Contact us
+                        </button>
+                    </div>
+                    <p style={{ fontSize: '12px', marginTop: "8px" }}>This website uses cookies. We use cookies to personalise content/ads and to analyse our traffic.</p>
+                </div>
+            </div>
+            {isLoading && <BlurLoader />}
+        </>
+    )
+}
+export default JSONBeautify;
